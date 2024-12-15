@@ -1,0 +1,51 @@
+﻿@model SV21T1020035.Web.Models.CategorySearchResult
+@{
+	Layout = null;
+}
+
+<p>
+	Có tổng số <b>@Model.RowCount</b> loại hàng trong tổng số <b>@Model.PageCount</b> trang
+</p>
+<div class="table-responsive">
+	<table class="table table-bordered table-hover table-striped">
+		<thead>
+			<tr class="bg-primary">
+				<th>Tên Loại Hàng</th>
+				<th>Mô Tả</th>
+				<th style="width:80px"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var i in Model.Data)
+			{
+				<tr>
+					<th>@i.CategoryName</th>
+					<th>@i.Description</th>
+					<th>
+						<a href="~/Category/Edit/@i.CategoryID" class="btn btn-xs btn-info">
+							<i class="fa fa-edit"></i>
+						</a>
+						<a href="~/Category/Delete/@i.CategoryID" class="btn btn-xs btn-danger">
+							<i class="fa fa-trash"></i>
+						</a>
+					</th>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+<div class="text-center">
+	<ul class="pagination">
+		@for (int i = 1; i <= Model.PageCount; i++)
+		{
+			if (i == Model.Page)
+			{
+				<li class="active"><a href="#">@i</a></li>
+			}
+			else
+			{
+				<li><a href="javascripts:;"onclick="doSearch(@i)">@i</a></li>
+			}
+		}
+	</ul>
+</div>

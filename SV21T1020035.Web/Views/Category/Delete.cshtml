@@ -1,0 +1,29 @@
+﻿@model Category
+@{
+}
+<div class="box box-primary box-danger">
+    <div class="box-body">
+        <form action="~/Category/Delete/@Model.CategoryID"  method="post">
+            <div class="form-group">
+                <label>Tên Loại Hàng:</label>
+                <p class="form-control-static form-control">@Model.CategoryName</p>
+            </div>
+            <div class="form-group">
+                <label>Mô Tả:</label>
+                <p class="form-control-static form-control">@Model.Description</p>
+            </div>
+            <div class="form-group text-right">
+                @if (!CommomDataService.InUserCategory(Model.CategoryID))
+                {
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Xóa loại hàng này?')">
+                        <i class="fa fa-floppy-o"></i> Xóa
+                    </button>
+                }
+                
+                <a href="~/Category" class="btn btn-default">
+                    Quay Lại
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

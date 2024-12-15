@@ -1,0 +1,97 @@
+﻿@model ProductSearchResult
+@{
+    Layout = null;
+}
+<!-- Hiển thị danh sách mặt hàng tìm được -->
+@foreach (Product i in Model.Data)
+{
+    <form class="frmAddToCart" action="~/Order/AddToCart" method="post" style="background-color:#fff; border:1px solid #ccc; margin:5px 0px 5px 0px; padding:5px;">
+        <input type="hidden" name="@nameof(i.ProductID)" value="@i.ProductID" />
+        <input type="hidden" name="@nameof(i.ProductName)" value="@i.ProductName" />
+        <input type="hidden" name="@nameof(i.Photo)" value="@i.Photo" />
+        <input type="hidden" name="@nameof(i.Unit)" value="@i.Unit" />
+        <div class="row">
+            <div class="col-md-12">
+                <strong>@i.ProductName</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                @if (i.Photo != "")
+                {
+                    <img class="img img-responsive img-bordered" src="~/images/products/@i.Photo" style="width:100%" alt="" />
+                }
+                else
+                {
+                    <img class="img img-responsive img-bordered" src="~/images/products/noimage.jpg" style="width:100%" alt="" />
+                }
+            </div>
+            <div class="col-sm-9">
+                <div class="form-group-sm">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <label>Giá bán:</label>
+                            <input type="text" class="form-control number-separator" name="SalePrice" value="@i.Price">
+                        </div>
+                        <div class="col-md-5">
+                            <label>Số lượng:</label>
+                            <input class="form-control" type="number" value="1" min="1" name="Quantity"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group-sm" style="margin-top:2px;">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+@if (Model.PageCount > 1)
+{
+    <ul class="pager">
+        @if (Model.Page > 1)
+        {
+            <li class="previous"><a href="javascript:;" onclick="doSearch(@Model.Page -1)"><i class="fa fa-backward"></i></a></li>
+        }
+        <li>
+            <span>Trang @Model.Page / @Model.PageCount</span>
+        </li>
+        @if (Model.Page < Model.PageCount)
+        {
+            <li class="next"><a href="javascript:;" onclick="doSearch(@Model.Page +1)"><i class="fa fa-forward"></i></a></li>
+        }
+    </ul>
+}
+<script>
+    $('.number-separator').inputmask({
+        alias: "numeric",
+        groupSeparator: ",",       // Dấu phẩy phân cách phần nghìn
+        autoGroup: true,           // Tự động thêm dấu phân cách
+        digits: 0,                 // Không có chữ số thập phân
+        removeMaskOnSubmit: true,   // Loại bỏ ký tự phân cách phần nghìn khi submit form
+        rightAlign: false
+    });
+    $(".frmAddToCart").submit(function (e) {
+        e.preventDefault(); // Ngăn hành động gửi form mặc định
+
+        var url = $(this).prop("action"); // Lấy URL từ action của form
+        var method = $(this).prop("method"); // Lấy method từ form (POST, GET, ...)
+        var data = $(this).serializeArray(); // Lấy dữ liệu từ form
+
+        $.ajax({
+            url: url,
+            type: method,
+            data: data,
+            success: function (result) {
+                if (result !== "") {
+                    alert(result); // Hiển thị thông báo nếu có kết quả từ server
+                } else {
+                    showShoppingCart(); // Cập nhật giỏ hàng nếu không có thông báo
+                }
+            }
+        });
+    });
+
+</script>

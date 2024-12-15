@@ -1,0 +1,68 @@
+﻿@model SV21T1020035.Web.Models.ProductSearchResult
+@{
+    Layout = null;
+}
+<p style="margin:10px 0 10px 0">
+    Có <strong>@Model.RowCount</strong> mặt hàng trong tổng số <strong>@Model.PageCount</strong> trang
+</p>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr class="bg-primary">
+                <th style="width:80px">Ảnh</th>
+                <th>Tên mặt hàng</th>
+                <th>Đơn vị tính</th>
+                <th>Giá</th>
+                <th style="width:80px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model.Data)
+            {
+                <tr>
+                    <td>
+                        @if (i.Photo != "")
+                        {
+                            <img src="~/images/products/@i.Photo" style="width:100%" alt="" />
+                        }
+                        else
+                        {
+                            <img src="~/images/products/noimage.jpg" style="width:100%" alt="" />
+                        }
+
+                    </td>
+                    <td>
+                        @i.ProductName
+                    </td>
+                    <td>@i.Unit</td>
+                    <td>@i.Price.ToString("N0")</td>
+                    <td class="text-right">
+                        <a href="~/Product/Edit/@i.ProductID" class="btn btn-xs btn-info">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a href="~/Product/Delete/@i.ProductID" class="btn btn-xs btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center">
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            if (i == Model.Page)
+            {
+                <li class="active"><a href="#">@i</a></li>
+            }
+            else
+            {
+                <li><a href="javascripts:;" onclick="doSearch(@i)">@i</a></li>
+            }
+        }
+    </ul>
+</div>

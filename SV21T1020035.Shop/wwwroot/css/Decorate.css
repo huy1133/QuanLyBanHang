@@ -1,0 +1,121 @@
+﻿header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+}
+
+    header .btn {
+        font-size: 14px;
+        margin-right: 10px;
+        color: rgb(20, 53, 195);
+        border-color: rgb(20, 53, 195);
+    }
+
+        header .btn:hover {
+            background-color: rgb(20, 53, 195);
+            color: white;
+        }
+
+        header .btn i {
+            margin-right: 5px;
+        }
+
+.search-input {
+    position: relative;
+}
+
+    .search-input input {
+        padding-left: 30px;
+    }
+
+    .search-input i {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgb(20, 53, 195);
+    }
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+    .card img {
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-body p {
+    font-size: 1rem;
+    color: #e74c3c;
+    margin: 10px 0;
+}
+
+.btn-primary {
+    background-color: rgb(20, 53, 195);
+    border: 1px solid rgb(20, 53, 195);
+    color: white;
+}
+
+    .btn-primary:hover {
+        background-color: rgb(15, 42, 164);
+        border-color: rgb(15, 42, 164);
+    }
+
+.container {
+    margin-top: 40px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .row .col-md-3 {
+        display: flex;
+        justify-content: center;
+    }
+
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.pagination .page-link {
+    color: rgb(20, 53, 195);
+    border: 1px solid rgb(20, 53, 195);
+}
+
+    .pagination .page-link:hover {
+        color: white;
+        background-color: rgb(20, 53, 195);
+        border-color: rgb(20, 53, 195);
+    }
+
+.pagination .page-item.active .page-link {
+    color: white;
+    background-color: rgb(20, 53, 195);
+    border-color: rgb(20, 53, 195);
+}

@@ -1,0 +1,28 @@
+﻿@model Shipper
+@{
+}
+<div class="box box-primary">
+    <div class="box-body">
+        <form action="~/Shipper/Save" method="post">
+            <input type="hidden" value="@Model.ShipperID" name="@nameof(Model.ShipperID)">
+            <div class="form-group">
+                <label>Người Giao Hàng:</label>
+                <input type="text" class="form-control" autofocus value="@Model.ShipperName" name="@nameof(Model.ShipperName)">
+                @Html.ValidationMessage(nameof(Model.ShipperName), new { @style = "color:#f00" })
+            </div>
+            <div class="form-group">
+                <label>Số Điện Thoại:</label>
+                <input type="text" class="form-control" value="@Model.Phone" name="@nameof(Model.Phone)">
+                @Html.ValidationMessage(nameof(Model.Phone), new { @style = "color:#f00" })
+            </div>
+            <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary" onclick="return confirmAlternativeData(@Model.ShipperID)">
+                    <i class="fa fa-floppy-o"></i> Lưu Trữ
+                </button>
+                <a href="~/Shipper" class="btn btn-default">
+                    Quay Lại
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+﻿@model Shipper
+@{
+}
+<div class="box box-primary box-danger">
+    <div class="box-body">
+        <form action="~/Shipper/Delete/@Model.ShipperID" method="post">
+            <div class="form-group">
+                <label>Người Giao Hàng:</label>
+                <p class="form-control-static form-control">@Model.ShipperName</p>
+            </div>
+            <div class="form-group">
+                <label>Số Điện Thoại:</label>
+                <p class="form-control-static form-control">@Model.Phone</p>
+            </div>
+            <div class="form-group text-right">
+                @if (!CommomDataService.InUseShipper(Model.ShipperID))
+                {
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Xóa giao hàng này?')">
+                        <i class="fa fa-floppy-o"></i> Xóa
+                    </button>
+                }
+                <a href="~/Shipper" class="btn btn-default">
+                    Quay Lại
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

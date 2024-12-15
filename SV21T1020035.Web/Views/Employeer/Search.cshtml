@@ -1,0 +1,71 @@
+﻿@model SV21T1020035.Web.Models.EmployeerSearchResult
+@{
+	Layout = null;
+}
+<!-- Hiển thị dữ liệu -->
+<p style="margin-top:10px">
+    Có tổng số <b>@Model.RowCount</b> nhân viên trong tổng số <b>@Model.PageCount</b> trang
+</p>
+<div class="row">
+    @foreach (var i in Model.Data)
+    {
+        <div class="col-sm-4">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">@i.FullName</h3>
+                    <div class="box-tools pull-right">
+                        <a class="btn btn-box-tool" href="~/Employeer/Edit/@i.EmployeeID">
+                            <i class="fa fa-edit text-primary"></i>
+                        </a>
+                        <a class="btn btn-box-tool" href="~/Employeer/Delete/@i.EmployeeID">
+                            <i class="fa fa-trash text-danger"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            @if (i.Photo == "")
+                            {
+                                <img class="profile-user-img img-responsive img-bordered" src="~/images/Employee/noimage.jpg">
+                            }
+                            else
+                            {
+                                <img class="profile-user-img img-responsive img-bordered" src="~/images/Employee/@i.Photo">
+                            }
+                        </div>
+                        <div class="col-sm-8">
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <i class="fa fa-birthday-cake"></i> @i.BirthDate.ToString("dd/MM/yyyy")
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fa fa-phone"></i> @i.Phone
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fa fa-envelope"></i> @i.Email
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="text-center">
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            if (i == Model.Page)
+            {
+                <li class="active"><a href="#">@i</a></li>
+            }
+            else
+            {
+                <li><a href="javascripts:;" onclick="doSearch(@i)">@i</a></li>
+            }
+        }
+    </ul>
+</div>

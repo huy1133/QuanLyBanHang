@@ -1,0 +1,44 @@
+﻿@model Supplier
+@{
+}
+<div class="box box-primary box-danger">
+    <div class="box-body">
+        <form action="~/Supplier/Delete/@Model.SupplierID" method="post">
+            <div class="form-group">
+                <label>Tên Nhà Cung Cấp:</label>
+                <p class="form-control-static form-control">@Model.SupplierName</p>
+            </div>
+            <div class="form-group">
+                <label>Tên Giao Dịch:</label>
+                <p class="form-control-static form-control">@Model.ContactName</p>
+            </div>
+            <div class="form-group">
+                <label>Số Điện Thoại:</label>
+                <p class="form-control-static form-control">@Model.Phone</p>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <p class="form-control-static form-control">@Model.Email</p>
+            </div>
+            <div class="form-group">
+                <label>Địa Chỉ:</label>
+                <p class="form-control-static form-control">@Model.Address</p>
+            </div>
+            <div class="form-group">
+                <label>Tỉnh/ Thành:</label>
+                <p class="form-control-static form-control">@Model.Province</p>
+            </div>
+            <div class="form-group text-right">
+                @if (!CommomDataService.InUseSupplier(Model.SupplierID))
+                {
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Xóa nhà cung cấp này?')">
+                        <i class="fa fa-floppy-o"></i> Xóa
+                    </button>
+                }
+                <a href="~/Supplier" class="btn btn-default">
+                    Quay Lại
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
