@@ -1,29 +1,47 @@
 # Thư mục và tệp của Visual Studio
 .vs/
+.vscode/
+.idea/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 
-# Build output
+# Thư mục và tệp build
 bin/
 obj/
+out/
 
-# Thư viện bên thứ ba
+# Thư viện NuGet (được tải xuống từ Internet)
 packages/
 *.nupkg
-project.lock.json
-project.fragment.lock.json
 
-# Dữ liệu tạm thời
+# Tệp cấu hình
+appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+
+# Thư mục tạm thời
 *.log
 *.tmp
-*.pdb
-*.cache
-*.ide
-.DS_Store
+*.bak
+*.swp
+*.sql
 
-# Tệp riêng tư
-*.config
-*.json
+# Các tệp và thư mục của IIS (nếu sử dụng IIS)
+iisexpress/
+PublishOutput/
+
+# Tệp và thư mục của Docker (nếu sử dụng Docker)
+.docker/
+Dockerfile
+
+# Tệp database tạm thời hoặc file cache
+Database/
+*.mdf
+*.ldf
+
+# Các tệp môi trường ẩn
+*.env
 *.secret
+v
