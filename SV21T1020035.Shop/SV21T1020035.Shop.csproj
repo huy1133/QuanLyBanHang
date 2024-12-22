@@ -10,4 +10,14 @@
     <_ContentIncludedByDefault Remove="wwwroot\css\Decorate.css" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SV21T1020035.BusinessLayers\SV21T1020035.BusinessLayers.csproj" />
+    <ProjectReference Include="..\SV21T1020035.DataLayers\SV21T1020035.DataLayers.csproj" />
+    <ProjectReference Include="..\SV21T1020035.DomainModels\SV21T1020035.DomainModels.csproj" />
+  </ItemGroup>
+
 </Project>

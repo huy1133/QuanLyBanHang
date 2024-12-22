@@ -1,47 +1,36 @@
-﻿<div class="container my-5">
+﻿@model ProductSearchResult
+<div class="container my-5">
     <div>
-        <h3>Danh mục: Điện tử</h3>
+        @{
+            Category? category = CommomDataService.GetCategory(Model.CategoryID);
+        }
+        @if (category!=null)
+        {
+            <h3>Danh mục: @category.CategoryName </h3>
+        }
+        else
+        {
+            <h3>Danh mục: Tất cả</h3>
+        }
+        <p>Có tổng số <strong>@Model.RowCount</strong> sản phẩm trong tổng số <strong>@Model.PageCount</strong> trang</p>
     </div>
     <div class="row">
-        @for(int i=0; i<10; i++)
+        @foreach (Product i in Model.Data)
         {
             <div class="col-sm-3 md-3 mb-4">
                 <div class="card h-100">
-                    <img src="https://via.placeholder.com/200" class="card-img-top" alt="Product 1">
+                    @if (i.Photo != "")
+                    {
+                        <img src="http://localhost:5084/images/products/@i.Photo" class="card-img-top" alt="Product" onclick="navigateToDetail(@i.ProductID)">
+                    }
+                    else
+                    {
+                        <img src="http://localhost:5084/images/products/noimage.jpg" class="card-img-top" alt="Product" onclick="navigateToDetail(@i.ProductID)">
+                    }
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Màn hình MSI</h5>
-                        <p class="text-danger">4.550.000 đ</p>
-                        <button class="btn btn-primary mt-auto"><i class="fas fa-cart-plus"></i> Thêm vào giỏ</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3 md-3 mb-4">
-                <div class="card h-100">
-                    <img src="https://via.placeholder.com/200" class="card-img-top" alt="Product 2">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Màn hình AOC</h5>
-                        <p class="text-danger">2.090.000 - 2.319.000 đ</p>
-                        <button class="btn btn-primary mt-auto"><i class="fas fa-cart-plus"></i> Thêm vào giỏ</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3 md-3 mb-4">
-                <div class="card h-100">
-                    <img src="https://via.placeholder.com/200" class="card-img-top" alt="Product 3">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Màn hình Samsung</h5>
-                        <p class="text-danger">2.790.000 đ</p>
-                        <button class="btn btn-primary mt-auto"><i class="fas fa-cart-plus"></i> Thêm vào giỏ</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3 md-3 mb-4">
-                <div class="card h-100">
-                    <img src="https://via.placeholder.com/200" class="card-img-top" alt="Product 4">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Màn hình Asus</h5>
-                        <p class="text-danger">2.190.000 đ</p>
-                        <button class="btn btn-primary mt-auto"><i class="fas fa-cart-plus"></i> Thêm vào giỏ</button>
+                        <h5 class="card-title" onclick="navigateToDetail(@i.ProductID)">@i.ProductName</h5>
+                        <p class="text-danger" onclick="navigateToDetail(@i.ProductID)">@i.Price.ToString("N0") vnđ</p>
+                        <button class="btn btn-primary mt-auto" onclick="addToCart(@i.ProductID)"><i class="fas fa-cart-plus"></i> Thêm vào giỏ</button>
                     </div>
                 </div>
             </div>
@@ -50,13 +39,40 @@
     <div class="container mt-5">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">6</a></li>
+                @for(int i=1; i<=Model.PageCount; i++)
+                {
+                    if (i == Model.Page)
+                    {
+                        <li class="page-item active"><a class="page-link" href="">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item"><a class="page-link" href="~/Home/Search?page=@i">@i</a></li>
+                    }
+                }
             </ul>
         </nav>
     </div>
 </div>
+<script>
+    function navigateToDetail(productID) {
+        window.location.href = '/Product/ProductDetail/' + productID;
+    }
+    function addToCart(productID) {
+        var quantity = 1;
+
+        var data = {
+            productID: productID,
+            quantity: quantity
+        };
+
+        $.ajax({
+            url: '/Cart/AddToCart',  
+            type: 'POST', 
+            data: data,  
+            success: function (response) {
+                window.location.href = '/Cart';
+            },
+        });
+    }
+</script>

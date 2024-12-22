@@ -1,20 +1,67 @@
-﻿<header class="py-2">
+﻿@using SV21T1020035.Shop.AppCodes
+@{
+    ProductSearchInput? condition = ApplicationContext.GetSessionData<ProductSearchInput>("ProductSerachCondition");
+    if (condition == null)
+    {
+        condition = new ProductSearchInput()
+        {
+            CategoryID = 0,
+            Page = 1,
+        };
+    }
+}
+<header class="py-2 position-relative">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-        <div>
-            <a href="#" class="btn btn-outline-primary"><i class="fas fa-list"></i>Danh mục sản phẩm</a>
+        <!-- Danh mục sản phẩm -->
+        <div class="position-relative">
+            <button class="btn btn-outline-primary" onclick="toggleCategoryList()">
+                <i class="fas fa-list"></i> Danh mục sản phẩm
+            </button>
+            <div class="category-list position-absolute d-none mt-2">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="~/Home/Search?categoryID=0">Tất cả</a></li>
+                    @foreach(Category i in CommomDataService.ListOfCategory())
+                    {
+                        <li class="list-group-item"><a href="~/Home/Search?categoryID=@i.CategoryID">@i.CategoryName</a></li>
+                    }
+                </ul>
+            </div>
         </div>
-        <form class="d-flex" role="search" style="width: 50%;">
+
+        <!-- Thanh tìm kiếm -->
+        <form class="d-flex" role="search" style="width: 50%;" action="~/Home/Search" method="get">
             <div class="search-bar position-relative w-100">
-                <input class="form-control" type="search" placeholder="Nhập từ khóa cần tìm..." aria-label="Search">
+                <input type="hidden" name="categoryID" value="@condition.CategoryID" />
+                <input class="form-control" type="search" placeholder="Nhập từ khóa cần tìm..." value="@condition.SearchValue" name="searchValue">
                 <button class="btn position-absolute end-0 top-50 translate-middle-y pe-3" type="submit" style="background: none; border: none;">
                     <i class="fas fa-search text-primary"></i>
                 </button>
             </div>
         </form>
 
+        <!-- Đăng nhập và giỏ hàng -->
         <div>
             <button class="btn btn-outline-secondary" onclick="toggleLoginRegister()"><i class="fas fa-user"></i> Đăng nhập/Đăng ký</button>
-            <a href="#cart" class="btn btn-outline-primary"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
+            <a href="~/Cart" class="btn btn-outline-primary"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
         </div>
     </div>
 </header>
+
+<script>
+    function toggleCategoryList() {
+        const categoryList = document.querySelector('.category-list');
+        if (categoryList.classList.contains('d-none')) {
+            categoryList.classList.remove('d-none');
+        } else {
+            categoryList.classList.add('d-none');
+        }
+    }
+
+    document.addEventListener('click', function (event) {
+        const categoryList = document.querySelector('.category-list');
+        const button = event.target.closest('.btn-outline-primary');
+        if (!categoryList.contains(event.target) && !button) {
+            categoryList.classList.add('d-none');
+        }
+    });
+</script>

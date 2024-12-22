@@ -194,7 +194,7 @@ namespace SV21T1020035.Web.Controllers
             ApplicationContext.SetSessionData(SHOPPING_CART, shoppingCart);
             return Json("");
         }
-        public IActionResult RemoveFromcart(int id)
+        public IActionResult RemoveFromCart(int id)
         {
             var shoppingCart = GetShoppingCart();
             int index = shoppingCart.FindIndex(m=>m.ProductID == id);

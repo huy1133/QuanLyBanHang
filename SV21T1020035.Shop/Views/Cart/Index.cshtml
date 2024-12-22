@@ -1,0 +1,90 @@
+﻿@model IEnumerable<CartItem>
+<div class="container">
+    <a href="javascript:history.back()" class="back-button"><i class="fas fa-arrow-left"></i> Quay lại</a>
+    <h2 class="text-center mb-4 primary-color">Giỏ Hàng</h2>
+    @if (ViewBag.Count!=0)
+    {
+        <div class="cart-container">
+            <!-- Danh sách sản phẩm -->
+            <div class="cart-items">
+                @foreach (CartItem i in Model)
+                {
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <input type="checkbox" class="form-check-input me-3" checked>
+                        @if (i.Photo != "")
+                        {
+                            <img src="http://localhost:5084/images/products/@i.Photo" class="product-image" alt="">
+                        }
+                        else
+                        {
+                            <img src="http://localhost:5084/images/products/noimage.jpg" class="product-image" alt="">
+                        }
+                        @* <img src="https://images.unsplash.com/photo-1591099879456-2e4c9ab77a6a" alt="Laptop" class="product-image"> *@
+                        <div class="product-info">
+                            <h5>@i.ProductName</h5>
+                            <p class="product-price">@i.SalePrice.ToString("N0") vnđ</p>
+                        </div>
+                        <div class="quantity-control">
+                            @if (i.Quantity > 1)
+                            {
+                                <button class="btn btn-outline-secondary btn-sm" onclick="changeQuantity(@i.ProductID,-1)">-</button>
+                            }
+                            <input type="text" class="form-control w-25 mx-2" value="@i.Quantity">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="changeQuantity(@i.ProductID,1)">+</button>
+
+                        </div>
+                        <div>
+                            <p class="product-price">@i.TotalPrice.ToString("N0") vnđ</p>
+                            <button class="btn btn-primary btn-checkout bg-primary-color" onclick="remoteFromCart(@i.ProductID)">Xóa</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Thanh toán -->
+            <div class="cart-summary">
+                <h4 class="primary-color">Thanh toán</h4>
+                <div class="d-flex justify-content-between">
+                    <span>Thành tiền:</span>
+                    <span class="total-price">@ViewBag.SumTotal.ToString("N0") vnđ</span>
+                </div>
+                <button class="btn btn-primary btn-checkout bg-primary-color">Tiếp tục</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="product-price">Không có sản phẩm nào được thêm vào giỏ!</p>
+    }
+</div>
+<script>
+    function changeQuantity(productID, quantity) {
+        var data = {
+            productID: productID,
+            quantity: quantity
+        };
+
+        $.ajax({
+            url: '/Cart/AddToCart',
+            type: 'POST',
+            data: data,
+            success: function (response) {
+                window.location.href = '/Cart';
+            },
+        });
+    }
+    function remoteFromCart(productID) {
+        var data = {
+            productID: productID
+        };
+
+        $.ajax({
+            url: '/Cart/RemoteFromCart',
+            type: 'POST',
+            data: data,
+            success: function (response) {
+                window.location.href = '/Cart';
+            },
+        });
+    }
+</script>

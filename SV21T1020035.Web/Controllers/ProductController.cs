@@ -70,7 +70,7 @@ namespace SV21T1020035.Web.Controllers
 		}
 		public IActionResult Edit(int id)
 		{
-			ViewBag.Title = "Sữa thông tin sản phẩm";
+			ViewBag.Title = "Sửa thông tin sản phẩm";
 			Product? data = ProductDataService.GetProduct(id);
 			if (data == null)
 			{
