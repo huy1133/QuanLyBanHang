@@ -1,0 +1,81 @@
+﻿@model IEnumerable<CartItem>
+<a href="javascript:history.back()" class="back-button"><i class="fas fa-arrow-left"></i> Quay lại</a>
+<div class="form-container">
+	<h2>Xác nhận đặt hàng</h2>
+    <div class="form-group">
+        <h3>Thông tin nhận hàng</h3>
+        <p><strong>Họ và tên:</strong> @ViewBag.Customer.CustomerName @Html.ValidationMessage(nameof(ViewBag.Customer.CustomerName), new { @style = "color:#f00" })</p>
+        <p><strong>Tỉnh/ Thành:</strong> @ViewBag.Customer.Province @Html.ValidationMessage(nameof(ViewBag.Customer.Province), new { @style = "color:#f00" })</p>
+        <p><strong>Địa chỉ:</strong> @ViewBag.Customer.Address @Html.ValidationMessage(nameof(ViewBag.Customer.Address), new { @style = "color:#f00" })</p>
+        <p><strong>Số điện thoại:</strong> @ViewBag.Customer.Phone @Html.ValidationMessage(nameof(ViewBag.Customer.Phone), new { @style = "color:#f00" })</p>
+        <p><strong>Email:</strong> @ViewBag.Customer.Email @Html.ValidationMessage(nameof(ViewBag.Customer.Email), new { @style = "color:#f00" })</p>
+        <button class="btn btn-primary btn-checkout bg-primary-color" onclick="window.location.href='/Account/Profile'">Thay đổi thông tin</button>
+    </div>
+    <div class="order-items">
+        <table>
+            <thead>
+                <tr>
+                    <th>Ảnh</th>
+                    <th>Sản Phẩm</th>
+                    <th>Số Lượng</th>
+                    <th>Giá</th>
+                    <th>Thành Tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (CartItem i in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (i.Photo != "")
+                            {
+                                <img src="http://localhost:5084/images/products/@i.Photo" class="product-image" alt="">
+                            }
+                            else
+                            {
+                                <img src="http://localhost:5084/images/products/noimage.jpg" class="product-image" alt="">
+                            }
+                        </td>
+                        <td>@i.ProductName</td>
+                        <td>@i.Quantity</td>
+                        <td>@i.SalePrice.ToString("N0") vnđ</td>
+                        <td>@i.TotalPrice.ToString("N0") vnđ</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-right"><strong>Tổng Cộng:</strong></td>
+                    <td><strong>@ViewBag.SumTotal.ToString("N0") vnđ</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <button  class="btn btn-primary btn-checkout bg-primary-color" onclick="ConfirmOrder()">Đặt hàng</button>
+</div>
+<script>
+    function ConfirmOrder() {
+        $.ajax({
+            url: '/Cart/ConfirmCart',
+            method: 'Post',
+            success: function(response){
+                if (isNaN(response)) {
+                    return alert(response);
+                }
+                else {
+                    $.ajax({
+                        url: '/Order/Create',
+                        method: 'Post',
+                        success: function (response) {
+                            if (isNaN(response)) {
+                                return alert(response);
+                            } else {
+                                window.location.href = '/Order';
+                            }
+                        },
+                    });
+                }
+            },
+        });
+    }
+</script>

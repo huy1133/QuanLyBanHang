@@ -1,5 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
 using SV21T1020035.BusinessLayers;
 using SV21T1020035.Shop.AppCodes;
 using SV21T1020035.Shop.Models;
@@ -20,6 +19,7 @@ namespace SV21T1020035.Shop.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Title = "Trang chủ";
             ProductSearchInput? condition = ApplicationContext.GetSessionData<ProductSearchInput>(PRODUCT_SEARCH_CONDITION);
             if (condition == null)
             {

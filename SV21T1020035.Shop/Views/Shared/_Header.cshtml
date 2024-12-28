@@ -3,17 +3,17 @@
     ProductSearchInput? condition = ApplicationContext.GetSessionData<ProductSearchInput>("ProductSerachCondition");
     if (condition == null)
     {
-        condition = new ProductSearchInput()
-        {
-            CategoryID = 0,
-            Page = 1,
-        };
+        condition = new ProductSearchInput();
     }
+    var userData = User.GetUserData();
 }
 <header class="py-2 position-relative">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <!-- Danh mục sản phẩm -->
         <div class="position-relative">
+            <button class="btn btn-outline-primary" onclick="window.location.href='/Home'">
+                <i class="fas fa-home"></i> Trang chủ
+            </button>
             <button class="btn btn-outline-primary" onclick="toggleCategoryList()">
                 <i class="fas fa-list"></i> Danh mục sản phẩm
             </button>
@@ -40,10 +40,31 @@
         </form>
 
         <!-- Đăng nhập và giỏ hàng -->
-        <div>
-            <button class="btn btn-outline-secondary" onclick="toggleLoginRegister()"><i class="fas fa-user"></i> Đăng nhập/Đăng ký</button>
+        <div class="position-relative">
+            @if (userData != null)
+            {
+                <button class="btn btn-outline-secondary" onclick="toggleAccountMenu()">
+                    <i class="fas fa-user"></i> Xin chào: @userData.DisplayName
+                </button>
+                <!-- Dropdown menu -->
+                <div class="account-menu position-absolute d-none mt-2">
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="~/Account/Profile">Thông tin tài khoản</a></li>
+                        <li class="list-group-item"><a href="~/Account/ChangePassword">Đổi mật khẩu</a></li>
+                        <li class="list-group-item"><a href="~/Order">Quản lý đơn hàng</a></li>
+                        <li class="list-group-item"><a href="~/Account/Logout">Đăng xuất</a></li>
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <button class="btn btn-outline-secondary" onclick="toggleLoginRegister()">
+                    <i class="fas fa-user"></i> Đăng nhập/Đăng ký
+                </button>
+            }
             <a href="~/Cart" class="btn btn-outline-primary"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
         </div>
+
     </div>
 </header>
 
@@ -56,6 +77,27 @@
             categoryList.classList.add('d-none');
         }
     }
+
+    function toggleLoginRegister() {
+        window.location.href = '/Account/Login';
+    }
+
+    function toggleAccountMenu() {
+        const accountMenu = document.querySelector('.account-menu');
+        if (accountMenu.classList.contains('d-none')) {
+            accountMenu.classList.remove('d-none');
+        } else {
+            accountMenu.classList.add('d-none');
+        }
+    }
+
+    document.addEventListener('click', function (event) {
+        const accountMenu = document.querySelector('.account-menu');
+        const button = event.target.closest('.btn-outline-secondary');
+        if (!accountMenu.contains(event.target) && !button) {
+            accountMenu.classList.add('d-none');
+        }
+    });
 
     document.addEventListener('click', function (event) {
         const categoryList = document.querySelector('.category-list');

@@ -1,16 +1,9 @@
-﻿using SV21T1020035.DomainModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SV21T1020035.DataLayers
+﻿namespace SV21T1020035.DataLayers
 {
     /// <summary>
     /// định nghĩa các phép xử lý dữ liệu liên quan đến người dùng 
     /// </summary>
-    public interface IUserAccountDAL
+    public interface IUserAccountDAL<T> where T : class
     {
         /// <summary>
         /// Xác thực tài khoản đăng nhập của người dùng 
@@ -20,7 +13,7 @@ namespace SV21T1020035.DataLayers
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        UserAccount? Authorize(String userName, String password);
+        T? Authorize(String userName, String password);
         /// <summary>
         /// Đổi mật khẩu
         /// </summary>

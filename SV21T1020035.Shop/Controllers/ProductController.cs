@@ -7,6 +7,7 @@ namespace SV21T1020035.Shop.Controllers
     {
         public IActionResult ProductDetail(int id)
         {
+            ViewBag.Title = "Chi tiết sản phẩm";
             var data = ProductDataService.GetProduct(id);
             return View(data);
         }

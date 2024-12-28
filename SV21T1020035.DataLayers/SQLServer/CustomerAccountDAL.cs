@@ -3,43 +3,44 @@ using SV21T1020035.DomainModels;
 
 namespace SV21T1020035.DataLayers.SQLServer
 {
-    public class UserAccountDAL : BaseDAL, IUserAccountDAL<UserAccount>
+    public class CustomerAccountDAL : BaseDAL, IUserAccountDAL<CustomerAccount>
     {
-        public UserAccountDAL(string connectionString) : base(connectionString)
+        public CustomerAccountDAL(string connectionString) : base(connectionString)
         {
         }
-        public UserAccount? Authorize(string userName, string password)
+
+        public CustomerAccount? Authorize(string userName, string password)
         {
-            UserAccount? userAccount = null;
-            using (var connection = OpenConnection())
+            CustomerAccount? customerAccount = null;
+            using(var connection = OpenConnection())
             {
-                var sql = @"select EmployeeID as UserId, Email as UserName, FullName as DisplayName, Photo,  RoleName 
-                            from Employees 
+                var sql = @"select CustomerID as CustomerId, Email as CustomerName, CustomerName as DisplayName
+                            from Customers 
                             where Email = @UserName and Password = @Password";
-                var parameters = new
+                var parameter = new
                 {
                     Username = userName,
                     Password = password
                 };
-                userAccount = connection.QueryFirstOrDefault<UserAccount>(sql: sql, param: parameters, commandType: System.Data.CommandType.Text);
+                customerAccount = connection.QueryFirstOrDefault<CustomerAccount>(sql: sql, param: parameter, commandType: System.Data.CommandType.Text);
                 connection.Close();
-            };
-            return userAccount;
+            }
+            return customerAccount;
         }
-
         public bool ChangePassword(string userName, string password)
         {
             bool result = false;
             using (var connection = OpenConnection())
             {
-                var sql = @"update Employees
+                var sql = @"update Customers
                             set Password = @Password
                             where Email = @UserName";
-                var paramerters = new {
+                var paramerters = new
+                {
                     Password = password,
                     UserName = userName
                 };
-                result = connection.Execute(sql: sql, param: paramerters, commandType: System.Data.CommandType.Text)>0;
+                result = connection.Execute(sql: sql, param: paramerters, commandType: System.Data.CommandType.Text) > 0;
                 connection.Close();
             }
             return result;
@@ -50,7 +51,7 @@ namespace SV21T1020035.DataLayers.SQLServer
             bool result = false;
             using (var connection = OpenConnection())
             {
-                var sql = @"if exists (select * from Employees where Email = @UserName and Password = @Password)
+                var sql = @"if exists (select * from Customers where Email = @UserName and Password = @Password)
 	                            select 1
                             else 
 	                            select 0";

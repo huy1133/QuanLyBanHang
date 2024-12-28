@@ -1,0 +1,50 @@
+﻿@model Customer
+<a href="/Home" class="back-button"><i class="fas fa-arrow-left"></i> Quay về trang chủ</a>
+<div class="form-container">
+    <h2>Thông tin tài khoản</h2>
+    <form action="/Account/UpdateProfile" method="post">
+        <input type="hidden" name="@nameof(Model.CustomerID)" value="@Model.CustomerID" />
+        <input type="hidden" name="@nameof(Model.ContactName)" value="@Model.ContactName" />
+        <input type="hidden" name="@nameof(Model.IsLocked)" value="@Model.IsLocked" />
+        <div class="form-group">
+            <label>Họ và Tên</label>
+            <input type="text" name="@nameof(Model.CustomerName)" placeholder="Nhập họ và tên" value="@Model.CustomerName" >
+            @Html.ValidationMessage(nameof(Model.CustomerName), new { @style = "color:#f00" })
+        </div>
+        <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" name="@nameof(Model.Phone)" placeholder="Nhập số điện thoại" value="@Model.Phone">
+            @Html.ValidationMessage(nameof(Model.Phone), new { @style = "color:#f00" })
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="@nameof(Model.Email)" placeholder="Nhập email" value="@Model.Email">
+            @Html.ValidationMessage(nameof(Model.Email), new { @style = "color:#f00" })
+        </div>
+        <div class="form-group">
+            <label for="city">Tỉnh/ Thành</label>
+            <select name="@nameof(Model.Province)" class="select2">
+                <option value="">-- Chọn tỉnh/ thành --</option>
+                @foreach(Province province in CommomDataService.ListOfProvince())
+                {
+                    if(province.ProvinceName == Model.Province)
+                    {
+                        <option value="@province.ProvinceName" selected>@province.ProvinceName</option>
+                    }
+                    else
+                    {
+                        <option value="@province.ProvinceName">@province.ProvinceName</option>
+                    }
+                }
+            </select>
+            @Html.ValidationMessage(nameof(Model.Province), new { @style = "color:#f00" })
+        </div>
+        <div class="form-group">
+            <label>Địa chỉ</label>
+            <input type="text" name="@nameof(Model.Address)" value="@Model.Address" placeholder="Nhập địa chỉ">
+            @Html.ValidationMessage(nameof(Model.Address), new { @style = "color:#f00" })
+            @Html.ValidationMessage("Success", new { @style = "color:rgb(20, 53, 195)" })
+        </div>
+        <button type="submit" class="btn btn-primary btn-checkout bg-primary-color">Cập nhật</button>
+    </form>
+</div>

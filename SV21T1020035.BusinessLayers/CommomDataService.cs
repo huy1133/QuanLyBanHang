@@ -1,13 +1,6 @@
-﻿using Azure;
-using SV21T1020035.DataLayers;
+﻿using SV21T1020035.DataLayers;
 using SV21T1020035.DataLayers.SQLServer;
 using SV21T1020035.DomainModels;
-using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SV21T1020035.BusinessLayers
 {

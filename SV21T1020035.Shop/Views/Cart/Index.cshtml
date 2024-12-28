@@ -10,7 +10,6 @@
                 @foreach (CartItem i in Model)
                 {
                     <div class="d-flex align-items-center border-bottom py-3">
-                        <input type="checkbox" class="form-check-input me-3" checked>
                         @if (i.Photo != "")
                         {
                             <img src="http://localhost:5084/images/products/@i.Photo" class="product-image" alt="">
@@ -48,7 +47,7 @@
                     <span>Thành tiền:</span>
                     <span class="total-price">@ViewBag.SumTotal.ToString("N0") vnđ</span>
                 </div>
-                <button class="btn btn-primary btn-checkout bg-primary-color">Tiếp tục</button>
+                <button class="btn btn-primary btn-checkout bg-primary-color" onclick=" window.location.href = '/Cart/ConfirmCart'">Tiếp tục</button>
             </div>
         </div>
     }

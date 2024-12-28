@@ -15,6 +15,10 @@
     flex: 7;
     padding-right: 30px;
 }
+    .cart-items img{
+        object-fit: cover;
+        border-radius: 4px;
+    }
 
 .cart-summary {
     flex: 3;
@@ -23,7 +27,6 @@
     border-radius: 8px;
 }
 
-/* Hình ảnh sản phẩm */
 .product-image {
     width: 100px;
     height: 100px;
@@ -35,7 +38,6 @@
     padding-left: 20px;
 }
 
-/* Giá sản phẩm */
 .product-price {
     color: rgb(15, 42, 164);
     font-weight: bold;
@@ -46,13 +48,11 @@
     align-items: center;
 }
 
-/* Tổng tiền */
 .total-price {
     font-size: 1.2em;
     font-weight: bold;
 }
 
-/* Nút thanh toán */
 .btn-checkout {
     width: 100%;
     margin-top: 20px;
@@ -63,7 +63,7 @@
     border-color: rgb(15, 42, 164);
 }
 
-/* Phần thông tin bên phải */
 .cart-summary {
     background-color: rgb(240, 240, 240);
 }
+

@@ -6,21 +6,24 @@ namespace SV21T1020035.BusinessLayers
 {
     public class UserAccountDataService
     {
-        private static readonly IUserAccountDAL UserAccountDB;
-
+        private static readonly IUserAccountDAL<UserAccount> UserAccountDB;
+        private static readonly IUserAccountDAL<CustomerAccount> CustomerAccountDB;
         static UserAccountDataService()
         {
-            UserAccountDB = new UserAccountDAL(Configuration.ConnectionString);
+            string connectionString
+             = Configuration.ConnectionString;
+            UserAccountDB = new UserAccountDAL(connectionString);
+            CustomerAccountDB = new CustomerAccountDAL(connectionString);
         }
 
-        public static UserAccount? Authorize(TypeAccount account,String userName, String password)
+        public static dynamic? Authorize(TypeAccount account,String userName, String password)
         {
             switch (account)
             {
                 case TypeAccount.Employeer:
                     return UserAccountDB.Authorize(userName, password);
                 case TypeAccount.Customer:
-                    return null;
+                    return CustomerAccountDB.Authorize(userName, password);
                 default:
                     return null;
             }
@@ -32,7 +35,7 @@ namespace SV21T1020035.BusinessLayers
                 case TypeAccount.Employeer:
                     return UserAccountDB.ChangePassword(userName, password);
                 case TypeAccount.Customer:
-                    return true;
+                    return CustomerAccountDB.ChangePassword(userName, password);
                 default:
                     return false;
             }
@@ -44,7 +47,7 @@ namespace SV21T1020035.BusinessLayers
                 case TypeAccount.Employeer:
                     return UserAccountDB.VerifyOldPassword(userName, password);
                 case TypeAccount.Customer:
-                    return true;
+                    return CustomerAccountDB.VerifyOldPassword(userName, password);
                 default:
                     return false;
             }
