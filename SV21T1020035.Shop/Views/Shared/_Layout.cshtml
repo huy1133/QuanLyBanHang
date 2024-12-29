@@ -4,18 +4,18 @@
     <title>TVHShop - @ViewBag.Title</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SV21T1020035.Shop</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SV21T1020035.Shop.styles.css" asp-append-version="true" />
+
+    <!-- CSS Dependencies -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Decorate.css">
     <link rel="stylesheet" href="~/css/Cart.css">
     <link rel="stylesheet" href="~/css/Profile.css">
     <link rel="stylesheet" href="~/css/Order.css">
     <style>
-        .back-button{
+        .back-button {
             display: inline-block;
             padding: 10px 20px;
             font-size: 16px;
@@ -25,47 +25,52 @@
     </style>
 </head>
 <body>
+    <!-- Header -->
     @{
         await Html.RenderPartialAsync("_Header.cshtml");
     }
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-   
+
+    <!-- Footer -->
     @{
         await Html.RenderPartialAsync("_Footer.cshtml");
     }
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- JS Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/min/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Custom JS -->
     <script>
         $(document).ready(function () {
-            $('.sidebar-menu').tree();
-            $('.date-picker').datepicker({
-                autoclose: true,
-                format: "dd/mm/yyyy"
-            });
+            // Date range picker initialization
             $('.daterange-picker').daterangepicker({
                 locale: {
                     format: 'DD/MM/YYYY'
                 }
             });
-            $('.select2').select2();
+
+            // Input mask for numbers
             $('.number-separator').inputmask({
                 alias: "numeric",
-                groupSeparator: ",",       // Dấu phẩy phân cách phần nghìn
-                autoGroup: true,           // Tự động thêm dấu phân cách
-                digits: 0,                 // Không có chữ số thập phân
-                removeMaskOnSubmit: true,   // Loại bỏ ký tự phân cách phần nghìn khi submit form
+                groupSeparator: ",",
+                autoGroup: true,
+                digits: 0,
+                removeMaskOnSubmit: true,
                 rightAlign: false
             });
-        })
+        });
     </script>
+
     @RenderSection("scripts", false)
 </body>
 </html>

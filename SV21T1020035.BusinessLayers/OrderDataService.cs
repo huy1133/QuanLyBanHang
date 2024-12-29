@@ -19,10 +19,10 @@ namespace SV21T1020035.BusinessLayers
         /// Tìm kiếm và lấy danh sách đơn hàng dưới dạng phân trang
         /// </summary>
         public static List<Order> ListOrders(out int rowCount, int page = 1, int pageSize = 0,
-            int status = 0, DateTime? fromTime = null, DateTime? toTime = null,string searchValue = "")
+            int status = 0, DateTime? fromTime = null, DateTime? toTime = null, string searchValue = "", int customerId = 0)
         {
             rowCount = orderDB.Count(status, fromTime, toTime, searchValue);
-            return orderDB.List(page, pageSize, status, fromTime, toTime, searchValue).ToList();
+            return orderDB.List(page, pageSize, status, fromTime, toTime, searchValue,customerId).ToList();
         }
         /// <summary>
         /// Lấy thông tin của 1 đơn hàng
@@ -97,11 +97,15 @@ namespace SV21T1020035.BusinessLayers
         /// <summary>
         /// Duyệt chấp nhận đơn hàng
         /// </summary>
-        public static bool AcceptOrder(int orderID)
+        public static bool AcceptOrder(int orderID, int employeeID = 1)
         {
             Order? data = orderDB.Get(orderID);
             if (data == null)
                 return false;
+            if (data.EmployeeID == 1)
+            {
+                data.EmployeeID = employeeID;
+            }
             if (data.Status == Constants.ORDER_INIT)
             {
                 data.Status = Constants.ORDER_ACCEPTED;

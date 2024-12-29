@@ -8,7 +8,7 @@ namespace SV21T1020035.DataLayers
         /// Tìm kiếm và lấy danh sách đơn hàng dưới dạng phân trang
         /// </summary>
         IList<Order> List(int page = 1, int pageSize = 0,
-        int status = 0, DateTime? fromTime = null, DateTime? toTime = null, string searchValue = "");
+        int status = 0, DateTime? fromTime = null, DateTime? toTime = null, string searchValue = "", int customerID = 0);
 
         /// <summary>
         /// Đếm số lượng đơn hàng thỏa điều kiện tìm kiếm

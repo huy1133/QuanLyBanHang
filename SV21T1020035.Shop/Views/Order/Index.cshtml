@@ -1,5 +1,73 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model OrderSearchInput
 @{
+    var StatusDictionary = new Dictionary<int, string>
+    {
+        { 0, "--Trạng thái--" },
+        { 1, "Đơn hàng mới. Đang chờ duyệt" },
+        { 2, "Đơn đã chấp nhận. Đang chờ chuyển hàng" },
+        { 3, "Đơn hàng đang được giao" },
+        { 4, "Đơn hàng đã hoàn tất" },
+        { -1, "Đơn hàng đã bị hủy" },
+        { -2, "Đơn hàng bị từ chối" }
+    };
+}
+<a href="/Home" class="back-button"><i class="fas fa-arrow-left"></i> Quay về trang chủ</a>
+<div class="form-container">
+    <h2>Quản lý đơn hàng</h2>
+    <form method="post" action="/Order/Search" id="frmSearchInput">
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <select class="form-control" name="@nameof(Model.Status)">
+                        @foreach (var i in StatusDictionary)
+                        {
+                            if (i.Key == Model.Status)
+                            {
+                                <option value="@i.Key" selected>@i.Value</option>
+                            }
+                            else
+                            {
+                                <option value="@i.Key">@i.Value</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group col-md-5">
+                    <input type="text" name="@nameof(Model.TimeRange)" class="daterange-picker form-control" placeholder="" value="@Model.TimeRange" />
+                </div>
+
+                <div class="form-group col-md-2">
+                    <button type="submit" class="btn btn-primary bg-primary-color"><i class="fas fa-search"></i> Tìm kiếm</button>
+                </div>
+            </div>
+    </form>
+    <div id="searchResult">
+    </div>
+</div>
+@section scripts {
+    <script>
+        function doSearch(page) {
+            var searchCondition = $("#frmSearchInput").serializeArray();
+            searchCondition.push({ name: "Page", value: page });
+
+            var action = $("#frmSearchInput").prop("action");
+            var method = $("#frmSearchInput").prop("method");
+
+            $.ajax({
+                url: action,
+                type: method,
+                data: searchCondition,
+                success: function (data) {
+                    $("#searchResult").html(data);
+                }
+            });
+        }
+        $(document).ready(function () {
+            doSearch(@Model.Page);
+            $("#frmSearchInput").submit(function (e) {
+                e.preventDefault();
+                doSearch(1);
+            });
+        });
+    </script>
 }

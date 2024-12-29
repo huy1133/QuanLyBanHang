@@ -6,6 +6,10 @@
     background-color: rgb(15, 42, 164);
 }
 
+.bg-danger-color {
+    background-color: #ff5733;
+}
+
 .cart-container {
     display: flex;
     margin-top: 50px;

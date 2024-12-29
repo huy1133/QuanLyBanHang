@@ -19,13 +19,15 @@ namespace SV21T1020035.Web.Controllers
             OrderSearchInput? condition = ApplicationContext.GetSessionData<OrderSearchInput>(ORDER_SEARCH_CONDITION);
             if (condition == null)
             {
+                DateTime currentDate = DateTime.Now;
+                DateTime pastDate = currentDate.AddDays(-15);
                 condition = new OrderSearchInput()
                 {
                     Page = 1,
                     PageSize = PAGE_SIZE,
                     SearchValue = "",
                     Status = 0,
-                    TimeRange = ""
+                    TimeRange = $"{pastDate:dd/MM/yyyy} - {currentDate:dd/MM/yyyy}"
                 };
             }
             return View(condition);
@@ -72,7 +74,8 @@ namespace SV21T1020035.Web.Controllers
         }
         public IActionResult Accept(int id)
         {
-            bool resultt = OrderDataService.AcceptOrder(id);
+            WebUserData? userData = User.GetUserData();
+            bool resultt = OrderDataService.AcceptOrder(id,int.Parse(userData?.UserId ?? "1"));
             return RedirectToAction("Details", new { id = id });
         }
         public IActionResult Cancel(int id)

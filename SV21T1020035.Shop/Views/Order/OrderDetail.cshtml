@@ -1,0 +1,105 @@
+﻿@model OrderDetailModel
+<a href="javascript:history.back()" class="back-button"><i class="fas fa-arrow-left"></i> Quay lại</a>
+<div class="form-container">
+    <h2>Chi tiết đơn hàng</h2>
+    <div class="form-group">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Mã đơn hàng:</label>
+                <input value="#@Model.Order.OrderID" readonly>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Trạng thái đơn hàng:</label>
+                <input value="@Model.Order.StatusDescription" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Thành phố:</label>
+                <input value="@Model.Order.DeliveryProvince" readonly>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Địa chỉ giao hàng:</label>
+                <input value="@Model.Order.DeliveryAddress" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Ngày đặt:</label>
+                <input value="@Model.Order.OrderTime.ToString("dd/MM/yyyy HH:mm:ss")" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Ngày xác nhận đơn:</label>
+                <input value="@Model.Order.AcceptTime?.ToString("dd/MM/yyyy HH:mm:ss")" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label>Ngày giao vận chuyển:</label>
+                <input value="@Model.Order.ShippedTime?.ToString("dd/MM/yyyy HH:mm:ss")" readonly>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Tên vận chuyển:</label>
+                <input value="@Model.Order.ShipperName" readonly>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Số điện thoại:</label>
+                <input value="@Model.Order.ShipperPhone" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Ngày hoàn tất:</label>
+                <input value="@Model.Order.FinishedTime?.ToString("dd/MM/yyyy HH:mm:ss")" readonly>
+            </div>
+        </div>
+    </div>
+    <div class="order-items">
+        <table>
+            <thead>
+                <tr>
+                    <th>Ảnh</th>
+                    <th>Sản Phẩm</th>
+                    <th>Số Lượng</th>
+                    <th>Giá</th>
+                    <th>Thành Tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(OrderDetail i in Model.Details)
+                {
+                    <tr>
+                        <td>
+                            @if (i.Photo!="")
+                            {
+                                <img src="http://localhost:5084/images/products/@i.Photo" class="product-image" alt="">
+                            }
+                            else
+                            {
+                            <img src="http://localhost:5084/images/products/noimage.jpg" class="product-image" alt="">
+                            }
+                        </td>
+                        <td>@i.ProductName</td>
+                        <td>@i.Quantity</td>
+                        <td>@i.SalePrice.ToString("N0") vnđ</td>
+                        <td>@i.TotalPrice.ToString("N0") vnđ</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-right"><strong>Tổng Cộng:</strong></td>
+                    <td><strong>@Model.TotalPrice.ToString("N0") vnđ</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    @if(Model.Order.Status == 1)
+    {
+        <form action="/Order/Cancel/@Model.Order.OrderID" method="post">
+            <button onclick="return confirm('Xác nhận hủy đơn hàng này?')" type="submit" class="btn btn-danger btn-checkout bg-danger-color">Hủy đơn hàng</button>
+        </form>
+    }
+</div>

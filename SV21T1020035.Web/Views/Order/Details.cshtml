@@ -24,7 +24,7 @@
                         <li><a href="~/Order/Finish/@Model.Order.OrderID" onclick="return confirm('Xác nhận đơn hàng đã hoàn tất thành công?')">Xác nhận hoàn tất đơn hàng</a></li>
                     }
                     <li class="divider"></li>
-                    @if (Model.Order.Status != Constants.ORDER_FINISHED)
+                    @if (Model.Order.Status != Constants.ORDER_FINISHED && Model.Order.Status != Constants.ORDER_CANCEL)
                     {
                         <li><a href="~/Order/Cancel/@Model.Order.OrderID" onclick="return confirm('Xác nhận hủy đơn hàng này?')">Hủy đơn hàng</a></li>
                     }

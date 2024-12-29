@@ -153,7 +153,7 @@ namespace SV21T1020035.DataLayers.SQLServer
         }
         public IList<Order> List(int page = 1, int pageSize = 0,
             int status = 0, DateTime? fromTime = null, DateTime? toTime = null,
-        string searchValue = "")
+        string searchValue = "", int customerID = 0)
         {
             List<Order> list = new List<Order>();
             if (!string.IsNullOrEmpty(searchValue))
@@ -183,6 +183,7 @@ namespace SV21T1020035.DataLayers.SQLServer
                             or c.CustomerName like @SearchValue
                             or e.FullName like @SearchValue
                             or s.ShipperName like @SearchValue)
+                            and (@CustomerID = 0 or @CustomerID = o.CustomerID)
                     )
                     select * from cte
                     where (@PageSize = 0)
@@ -196,6 +197,7 @@ namespace SV21T1020035.DataLayers.SQLServer
                     Page = page,
                     PageSize = pageSize,
                     Status = status,
+                    CustomerID = customerID
                 };
                 list = connection.Query<Order>(sql:sql, param: parameters, commandType: System.Data.CommandType.Text).ToList();
                 connection.Close();
